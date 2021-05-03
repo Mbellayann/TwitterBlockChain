@@ -1,31 +1,27 @@
-const ropsten_mnemonic = "faith salad rabbit ecology sketch decrease work scheme hip frog hat faith";
-module.exports = {
-  
-  networks: {
-    ropsten: {
-			provider: () =>
-				new HDWalletProvider(
-					ropsten_mnemonic,
-					"https://ropsten.infura.io/v3/dd8a519c43fb4765a10072dd11b04048"
-				),
-			network_id: "3",
-			gas: 8000000,
-		},
-    development: {
-      host: "127.0.0.1",
-      port: 7545,
-      network_id: "*" // Match any network id
-    }
-    
-  },
-  solc: {
-    optimizer: {
-      enabled: true,
-      runs: 200
-    }
-  },
+//const ropsten_infura_apikey = "dd8a519c43fb4765a10072dd11b04048"
 
-  compilers: {
+//const ropsten_mnemonic = "faith salad rabbit ecology sketch decrease work scheme hip frog hat faith"
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+
+//const HDWalletProvider = require("truffle-hdwallet-provider");
+const MNEMONIC = 'faith salad rabbit ecology sketch decrease work scheme hip frog hat faith';
+
+module.exports = {
+	networks: {
+		development: {
+			host: "127.0.0.1",
+			port: 7545,
+			network_id: "*"
+		},
+		ropsten: {
+			provider: function() {
+				return new HDWalletProvider(MNEMONIC, "https://ropsten.infura.io/v3/e44bd34397ce456bbef21eaccdce5556")
+			},
+			network_id: "3",
+			gas: 8000000      //make sure this gas allocation isn't over 4M, which is the max
+		}
+	},
+	compilers: {
 		solc: {
 			version: "0.8.0", // Fetch exact version from solc-bin (default: truffle's version)
 			// docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
@@ -37,5 +33,5 @@ module.exports = {
 			//  evmVersion: "byzantium"
 			// }
 		},
-	}
-}
+	},
+};
