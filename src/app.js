@@ -6,6 +6,7 @@ App = {
     await App.loadWeb3()
     await App.loadAccount()
     await App.loadContract()
+    await App.loadContractSportTweet()
     await App.render()
   },
 
@@ -57,6 +58,16 @@ App = {
     App.generalTweet = await App.contracts.GeneralTweet.deployed()
   },
 
+  loadContractSportTweet: async () => {
+    // Create a JavaScript version of the smart contract
+    const sporttweetcontract = await $.getJSON('SportTweet.json')
+    App.contracts.SportTweet = TruffleContract(sporttweetcontract)
+    App.contracts.SportTweet.setProvider(App.web3Provider)
+
+    // Hydrate the smart contract with values from the blockchain
+    App.sporttweetcontract = await App.contracts.SportTweet.deployed()
+  },
+
   render: async () => {
     // Prevent double render
     if (App.loading) {
@@ -70,42 +81,44 @@ App = {
     $('#account').html(App.account)
 
     // Render Tasks
-    await App.renderTasks()
+    await App.renderSportTweet()
 
     // Update loading state
     App.setLoading(false)
   },
 
-  renderTasks: async () => {
-    // Load the total task count from the blockchain
-    const taskCount = await App.generalTweet.taskCount()
-    const $taskTemplate = $('.taskTemplate')
+  
+
+  renderSportTweet: async () => {
+    // Load the total sport tweets count from the blockchain
+    const tweetCount = await App.sporttweetcontract.tweetCount()
+    console.log('ici',tweetCount)
+    const $tweetTemplate = $('.tweetTemplate')
 
     // Render out each task with a new task template
-    for (var i = 1; i <= taskCount; i++) {
-      // Fetch the task data from the blockchain
-      const task = await App.generalTweet.tasks(i)
-      const taskId = task[0].toNumber()
-      const taskContent = task[1]
-      const taskCompleted = task[2]
-
+    for (var i = 1; i <= tweetCount; i++) {
+      // Fetch the tweet data from the blockchain
+      const tweet = await App.sporttweetcontract.sporttweet(i)
+      const tweetId = tweet[0].toNumber()
+      console.log(tweetId)
+      const tweetContent = tweet[1]
+      const tweetCompleted = tweet[2]
       // Create the html for the task
-      const $newTaskTemplate = $taskTemplate.clone()
-      $newTaskTemplate.find('.content').html(taskContent)
-      $newTaskTemplate.find('input')
-                      .prop('name', taskId)
-                      .prop('checked', taskCompleted)
-                      .on('click', App.toggleCompleted)
+    const $newTweetTemplate = $tweetTemplate.clone()
+    $newTweetTemplate.find('.content').html(tweetContent)
+    console.log(tweetContent)
+    $newTweetTemplate.find('.span')
+                    .prop('name', tweetId)
+                    .prop('content', tweetContent)
+                    //.on('click', App.toggleCompleted)
 
-      // Put the task in the correct list
-      if (taskCompleted) {
-        $('#completedTaskList').append($newTaskTemplate)
-      } else {
-        $('#taskList').append($newTaskTemplate)
-      }
-
-      // Show the task
-      $newTaskTemplate.show()
+    // Show the task
+    if (tweetContent) {
+      console.log("ok is not empty")
+      $('#completedTaskList').append($newTweetTemplate)
+      $newTweetTemplate.show()
+    } 
+    
     }
   },
 
@@ -113,6 +126,14 @@ App = {
     App.setLoading(true)
     const content = $('#newTask').val()
     await App.generalTweet.createTask(content)
+    window.location.reload()
+  },
+
+  createTweet: async () => {
+    App.setLoading(true)
+    const content = $('#newTweet').val()
+    console.log(content)
+    await App.sporttweetcontract.createSportTweet(content)
     window.location.reload()
   },
 
