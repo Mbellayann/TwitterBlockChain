@@ -1,4 +1,4 @@
-const ropsten_mnemonic = "faith salad rabbit ecology sketch decrease work scheme hip frog hat faith";
+const ropsten_mnemonic = "profit urge despair wood fly genre text balance loud battle wrist skull";
 module.exports = {
   
   networks: {
