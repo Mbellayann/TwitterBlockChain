@@ -132,8 +132,26 @@ App = {
   createTweet: async () => {
     App.setLoading(true)
     const content = $('#newTweet').val()
-    console.log(content)
     await App.sporttweetcontract.createSportTweet(content)
+    window.location.reload()
+  },
+
+  createLike: async () => {
+    
+    const tweetCount = await App.sporttweetcontract.tweetCount()
+    for (var i = 1; i <= tweetCount; i++) {
+      // Fetch the tweet data from the blockchain
+      const tweet = await App.sporttweetcontract.sporttweet(i)
+      //here we have to compare what is in the tweet or the id of the tweet
+      //const tweetId = tweet[0].toNumber() then put it in the method like tweet to return us the number of
+      //like
+      //const tweetnumber = await App.sporttweetcontract.createLikeTweet(tweetId)
+    }
+    //then set the app to put the tweet number count on the feed
+      //App.setLoading(true)
+      //const content = $('#tweetNumb').val()
+      //console.log(content)
+    
     window.location.reload()
   },
 
