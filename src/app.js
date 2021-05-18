@@ -5,7 +5,7 @@ App = {
   load: async () => {
     await App.loadWeb3()
     await App.loadAccount()
-    await App.loadContract()
+    //await App.loadContract()
     await App.loadContractSportTweet()
     await App.render()
   },
@@ -48,15 +48,15 @@ App = {
     App.account = web3.eth.accounts[0]
   },
 
-  loadContract: async () => {
+  //loadContract: async () => {
     // Create a JavaScript version of the smart contract
-    const generalTweet = await $.getJSON('GeneralTweet.json')
-    App.contracts.GeneralTweet = TruffleContract(generalTweet)
-    App.contracts.GeneralTweet.setProvider(App.web3Provider)
+    //const generalTweet = await $.getJSON('GeneralTweet.json')
+    //App.contracts.GeneralTweet = TruffleContract(generalTweet)
+   // App.contracts.GeneralTweet.setProvider(App.web3Provider)
 
     // Hydrate the smart contract with values from the blockchain
-    App.generalTweet = await App.contracts.GeneralTweet.deployed()
-  },
+   // App.generalTweet = await App.contracts.GeneralTweet.deployed()
+  //},
 
   loadContractSportTweet: async () => {
     // Create a JavaScript version of the smart contract

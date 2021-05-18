@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
-import "./GeneralTweet.sol";
+
 contract SportTweet{
     uint public tweetCount = 0;
     uint public likeCount = 0;
