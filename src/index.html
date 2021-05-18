@@ -115,11 +115,7 @@
 <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#" target="_blank">SmContract Team | Mini-Twitter</a>
-        <ul class="navbar-nav px-3">
-          <li class="nav-item text-nowrap d-none d-sm-none d-sm-block">
-            <small><a class="nav-link" href="#"><span id="account">User</span></a></small>
-          </li>
-        </ul>
+        
       </nav>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container bootdey">
@@ -143,14 +139,16 @@
             <a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="https://bootdey.com/img/Content/avatar/avatar1.png"></a>
             <div class="media-body " >
               <div class="mar-btm">
-                <a href="#"  class="btn-link text-semibold media-heading box-inline">User</a>
+                <a href="#"class="btn-link text-semibold media-heading box-inline"><span id="account">User</span></a>
                 <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i> - From Mobile - 11 min ago</p>
               </div>
-              <p class="content">Tweet goes here....</p>
+              <p id="name" class="content">Tweet goes here....</p>
               <div class="pad-ver">
                 <div class="btn-group">
                   <a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-thumbs-up"></i></a>
-                  <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>
+                  <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>                  
+                  <a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-trash"></i></a>
+                  <a class="btn btn-sm btn-default btn-hover-danger" onclick="App.editTweet();" href="#"><i class="fa fa-pencil-square-o "></i></a>
                 </div>
               </div>
               <hr>

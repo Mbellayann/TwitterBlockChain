@@ -1,4 +1,4 @@
-const ropsten_mnemonic = "profit urge despair wood fly genre text balance loud battle wrist skull";
+const ropsten_mnemonic = "liberty excess ripple file salad trust describe motor twenty media average elephant";
 module.exports = {
   
   networks: {

@@ -5,7 +5,6 @@ App = {
   load: async () => {
     await App.loadWeb3()
     await App.loadAccount()
-    await App.loadContract()
     await App.loadContractSportTweet()
     await App.render()
   },
@@ -48,15 +47,6 @@ App = {
     App.account = web3.eth.accounts[0]
   },
 
-  loadContract: async () => {
-    // Create a JavaScript version of the smart contract
-    const generalTweet = await $.getJSON('GeneralTweet.json')
-    App.contracts.GeneralTweet = TruffleContract(generalTweet)
-    App.contracts.GeneralTweet.setProvider(App.web3Provider)
-
-    // Hydrate the smart contract with values from the blockchain
-    App.generalTweet = await App.contracts.GeneralTweet.deployed()
-  },
 
   loadContractSportTweet: async () => {
     // Create a JavaScript version of the smart contract
@@ -122,12 +112,6 @@ App = {
     }
   },
 
-  createTask: async () => {
-    App.setLoading(true)
-    const content = $('#newTask').val()
-    await App.generalTweet.createTask(content)
-    window.location.reload()
-  },
 
   createTweet: async () => {
     App.setLoading(true)
@@ -135,6 +119,13 @@ App = {
     await App.sporttweetcontract.createSportTweet(content)
     window.location.reload()
   },
+
+  editTweet: async () => {
+    App.setLoading(true)
+    const content = $('#name').val()
+    console.log(content)
+  },
+
 
   createLike: async () => {
     
