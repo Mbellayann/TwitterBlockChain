@@ -34,10 +34,10 @@ $ npm run dev
  connect to metamask 
  ```
 ## Setup to run the proect on ropsten:
- 1.clone the master branch : $ git clone https://github.com/Isanfoweb/smcontract.git
- 2.replace the ropsten_mnemonic value by own words: const ropsten_mnemonic = "faith salad rabbit ecology sketch decrease work scheme hip frog hat faith";
- 3.run in the project folder: $ truffle migrate --network ropsten
- 4.finally run : $ npm run dev
+ * 1.clone the master branch : $ git clone https://github.com/Isanfoweb/smcontract.git
+ * 2.replace the ropsten_mnemonic value by own words: const ropsten_mnemonic = "faith salad rabbit ecology sketch decrease work scheme hip frog hat faith";
+ * 3.run in the project folder: $ truffle migrate --network ropsten
+ * 4.finally run : $ npm run dev
 
 # Now you can create, modify, read and delete 
 
