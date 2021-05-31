@@ -1,4 +1,6 @@
-window.abi =  [
+
+const addresss = '0x8f276d739FA3754eb0c68ADc2d5fdBbf63494326'
+window.abi = [
   {
     "inputs": [
       {
@@ -152,8 +154,9 @@ window.addEventListener('load', async () => {
   await init()
 })
 
-async function init() {
-  const address ='0xe9b4Cc5309ee3853A92Fe53417583A15138B2158'
+async function init() { 
+  const address = addresss
+  console.log(address)
   const AbiContractToken = await new web3.eth.Contract(abi, address)
   acc = await web3.eth.getAccounts()
   console.log(acc)
@@ -192,7 +195,7 @@ async function init() {
 
 async function createTweet(){
   content = document.getElementById('newTweet').value 
-  const address = '0xe9b4Cc5309ee3853A92Fe53417583A15138B2158'
+  const address = addresss
   const AbiContractToken = await new web3.eth.Contract(abi, address)
   acc = await web3.eth.getAccounts()
   console.log(acc[0])
@@ -202,7 +205,7 @@ async function createTweet(){
 
 async function modifyTweets(id){
   let content = prompt('enter new content')
-  const address = '0xe9b4Cc5309ee3853A92Fe53417583A15138B2158'
+  const address = addresss
   const AbiContractToken = await new web3.eth.Contract(abi, address)
   acc = await web3.eth.getAccounts()
   tweets = await AbiContractToken.methods.modifyTweet(id, content).send({from:acc[0]})
@@ -210,7 +213,8 @@ async function modifyTweets(id){
 }
 
 async function deletedTweets(id){
-  const address = '0xe9b4Cc5309ee3853A92Fe53417583A15138B2158'
+
+  const address = addresss
   const AbiContractToken = await new web3.eth.Contract(abi, address)
   acc = await web3.eth.getAccounts()
   tweets = await AbiContractToken.methods.deleteTweet(id).send({from:acc[0]})
