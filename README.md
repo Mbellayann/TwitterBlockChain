@@ -40,7 +40,18 @@ $ npm run dev
  * 3.run in the project folder: $ truffle migrate --network ropsten
  * 4.finally run : $ npm run dev
 
-# Now you can create, modify, read and delete 
+# Now you can create, modify, read and delete a tweet.
+
+## Docker container
+* We created 3 files:migrate.Docker, docker-compose.yml and .dockerignor .
+* To create a container and start it run: $ docker-compose build 
+* Docker Show images run: $ docker ps OR docker images ls
+* Docker stop images run: $ docker stop Ethereum
+* Docker list of containers running run: $ docker container ls
+* Docker previous containersrun: $ docker container ls -a
+
+
+
 
 
 
