@@ -44,11 +44,16 @@ $ npm run dev
 
 ## Docker container
 * We created 3 files:migrate.Docker, docker-compose.yml and .dockerignor .
-* To create a container and start it run: $ docker-compose build 
+* To create a container and start it run: $ docker-compose build
+* After this command you should go to Docker Appication you'll see the created image and you can run it to a container 
+* ![Docker](https://user-images.githubusercontent.com/60336269/120220713-77955100-c23d-11eb-8c57-aed1e164a9d5.PNG)
+* ![Capture1](https://user-images.githubusercontent.com/60336269/120220715-782de780-c23d-11eb-870d-bb7cff50fe51.PNG)
 * Docker Show images run: $ docker ps OR docker images ls
 * Docker stop images run: $ docker stop Ethereum
 * Docker list of containers running run: $ docker container ls
 * Docker previous containersrun: $ docker container ls -a
+
+
 
 
 
