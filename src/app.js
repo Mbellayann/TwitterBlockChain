@@ -213,7 +213,6 @@ async function modifyTweets(id){
 }
 
 async function deletedTweets(id){
-
   const address = addresss
   const AbiContractToken = await new web3.eth.Contract(abi, address)
   acc = await web3.eth.getAccounts()
