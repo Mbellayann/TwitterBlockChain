@@ -1,4 +1,5 @@
-const ropsten_mnemonic = "liberty excess ripple file salad trust describe motor twenty media average elephant";
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+const ropsten_mnemonic = "faith salad rabbit ecology sketch decrease work scheme hip frog hat faith";
 module.exports = {
   
   networks: {
@@ -6,7 +7,7 @@ module.exports = {
 			provider: () =>
 				new HDWalletProvider(
 					ropsten_mnemonic,
-					"https://ropsten.infura.io/v3/dd8a519c43fb4765a10072dd11b04048"
+					"https://ropsten.infura.io/v3/e44bd34397ce456bbef21eaccdce5556"
 				),
 			network_id: "3",
 			gas: 8000000,
