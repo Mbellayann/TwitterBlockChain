@@ -1,3 +1,4 @@
+
 const addresss = '0x8f276d739FA3754eb0c68ADc2d5fdBbf63494326'
 window.abi = [
   {
@@ -212,6 +213,7 @@ async function modifyTweets(id){
 }
 
 async function deletedTweets(id){
+
   const address = addresss
   const AbiContractToken = await new web3.eth.Contract(abi, address)
   acc = await web3.eth.getAccounts()
