@@ -194,7 +194,9 @@ async function createTweet(){
   content = document.getElementById('newTweet').value 
   const address = '0x8f276d739FA3754eb0c68ADc2d5fdBbf63494326'
   const AbiContractToken = await new web3.eth.Contract(abi, address)
-  tweets = await AbiContractToken.methods.createSportTweet(content).send({from:"0xC7755F19502958cEBa6347b8674c43D727b62626"})
+  acc = await web3.eth.getAccounts()
+  console.log(acc[0])
+  tweets = await AbiContractToken.methods.createSportTweet(content).send({from:acc[0]})
   init()
 }
 
@@ -202,14 +204,16 @@ async function modifyTweets(id){
   let content = prompt('enter new content')
   const address = '0x8f276d739FA3754eb0c68ADc2d5fdBbf63494326'
   const AbiContractToken = await new web3.eth.Contract(abi, address)
-  tweets = await AbiContractToken.methods.modifyTweet(id, content).send({from:"0xC7755F19502958cEBa6347b8674c43D727b62626"})
+  acc = await web3.eth.getAccounts()
+  tweets = await AbiContractToken.methods.modifyTweet(id, content).send({from:acc[0]})
   init()
 }
 
 async function deletedTweets(id){
   const address = '0x8f276d739FA3754eb0c68ADc2d5fdBbf63494326'
   const AbiContractToken = await new web3.eth.Contract(abi, address)
-  tweets = await AbiContractToken.methods.deleteTweet(id).send({from:"0xC7755F19502958cEBa6347b8674c43D727b62626"})
+  acc = await web3.eth.getAccounts()
+  tweets = await AbiContractToken.methods.deleteTweet(id).send({from:acc[0]})
   init()
 }
 
