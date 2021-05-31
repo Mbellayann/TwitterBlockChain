@@ -22,6 +22,7 @@
     "eslint-plugin-prettier": "^3.4.0",
     "lite-server": "^2.6.1",
     "nodemon": "^1.17.3",
+    "solc-0.7": "npm:solc@^0.7.0",
     "truffle": "^5.3.4",
     "truffle-contract": "3.0.6"
   },
