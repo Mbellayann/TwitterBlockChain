@@ -1,5 +1,5 @@
-const SportTweet = artifacts.require("./contracts/SportTweet.sol");
-
+const Tweet = artifacts.require("./contracts/Tweet.sol");
 module.exports = function(deployer) {
-  deployer.deploy(SportTweet);
+  deployer.deploy(Tweet);
 };
+

@@ -1,174 +1,216 @@
-App = {
-  loading: false,
-  contracts: {},
-
-  load: async () => {
-    await App.loadWeb3()
-    await App.loadAccount()
-    await App.loadContractSportTweet()
-    await App.render()
-  },
-
-  // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
-  loadWeb3: async () => {
-    if (typeof web3 !== 'undefined') {
-      App.web3Provider = web3.currentProvider
-      web3 = new Web3(web3.currentProvider)
-    } else {
-      window.alert("Please connect to Metamask.")
-    }
-    // Modern dapp browsers...
-    if (window.ethereum) {
-      window.web3 = new Web3(ethereum)
-      try {
-        // Request account access if needed
-        await ethereum.enable()
-        // Acccounts now exposed
-        web3.eth.sendTransaction({/* ... */})
-      } catch (error) {
-        // User denied account access...
+window.abi = [
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
-    }
-    // Legacy dapp browsers...
-    else if (window.web3) {
-      App.web3Provider = web3.currentProvider
-      window.web3 = new Web3(web3.currentProvider)
-      // Acccounts always exposed
-      web3.eth.sendTransaction({/* ... */})
-    }
-    // Non-dapp browsers...
-    else {
-      console.log('Non-Ethereum browser detected. You should consider trying MetaMask!')
-    }
+    ],
+    "name": "listtweet",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "content",
+        "type": "string"
+      },
+      {
+        "internalType": "bool",
+        "name": "modified",
+        "type": "bool"
+      },
+      {
+        "internalType": "bool",
+        "name": "deleted",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "date",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   },
-
-  loadAccount: async () => {
-    // Set the current blockchain account
-    App.account = web3.eth.accounts[0]
+  {
+    "inputs": [],
+    "name": "tweetCount",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   },
-
-
-  loadContractSportTweet: async () => {
-    // Create a JavaScript version of the smart contract
-    const sporttweetcontract = await $.getJSON('SportTweet.json')
-    App.contracts.SportTweet = TruffleContract(sporttweetcontract)
-    App.contracts.SportTweet.setProvider(App.web3Provider)
-
-    // Hydrate the smart contract with values from the blockchain
-    App.sporttweetcontract = await App.contracts.SportTweet.deployed()
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_content",
+        "type": "string"
+      }
+    ],
+    "name": "createSportTweet",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
-
-  render: async () => {
-    // Prevent double render
-    if (App.loading) {
-      return
-    }
-
-    // Update app loading state
-    App.setLoading(true)
-
-    // Render Account
-    $('#account').html(App.account)
-
-    // Render Tasks
-    await App.renderSportTweet()
-
-    // Update loading state
-    App.setLoading(false)
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "a",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_content",
+        "type": "string"
+      }
+    ],
+    "name": "modifyTweet",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
-
-  
-
-  renderSportTweet: async () => {
-    // Load the total sport tweets count from the blockchain
-    const tweetCount = await App.sporttweetcontract.tweetCount()
-    console.log('ici',tweetCount)
-    const $tweetTemplate = $('.tweetTemplate')
-
-    // Render out each task with a new task template
-    for (var i = 1; i <= tweetCount; i++) {
-      // Fetch the tweet data from the blockchain
-      const tweet = await App.sporttweetcontract.sporttweet(i)
-      const tweetId = tweet[0].toNumber()
-      console.log(tweetId)
-      const tweetContent = tweet[1]
-      const tweetCompleted = tweet[2]
-      // Create the html for the task
-    const $newTweetTemplate = $tweetTemplate.clone()
-    $newTweetTemplate.find('.content').html(tweetContent)
-    console.log(tweetContent)
-    $newTweetTemplate.find('.span')
-                    .prop('name', tweetId)
-                    .prop('content', tweetContent)
-                    //.on('click', App.toggleCompleted)
-
-    // Show the task
-    if (tweetContent) {
-      console.log("ok is not empty")
-      $('#completedTaskList').append($newTweetTemplate)
-      $newTweetTemplate.show()
-    } 
-    
-    }
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "a",
+        "type": "uint256"
+      }
+    ],
+    "name": "deleteTweet",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
-
-
-  createTweet: async () => {
-    App.setLoading(true)
-    const content = $('#newTweet').val()
-    await App.sporttweetcontract.createSportTweet(content)
-    window.location.reload()
-  },
-
-  editTweet: async () => {
-    App.setLoading(true)
-    const content = $('#name').val()
-    console.log(content)
-  },
-
-
-  createLike: async () => {
-    
-    const tweetCount = await App.sporttweetcontract.tweetCount()
-    for (var i = 1; i <= tweetCount; i++) {
-      // Fetch the tweet data from the blockchain
-      const tweet = await App.sporttweetcontract.sporttweet(i)
-      //here we have to compare what is in the tweet or the id of the tweet
-      //const tweetId = tweet[0].toNumber() then put it in the method like tweet to return us the number of
-      //like
-      //const tweetnumber = await App.sporttweetcontract.createLikeTweet(tweetId)
-    }
-    //then set the app to put the tweet number count on the feed
-      //App.setLoading(true)
-      //const content = $('#tweetNumb').val()
-      //console.log(content)
-    
-    window.location.reload()
-  },
-
-  toggleCompleted: async (e) => {
-    App.setLoading(true)
-    const taskId = e.target.name
-    await App.generalTweet.toggleCompleted(taskId)
-    window.location.reload()
-  },
-
-  setLoading: (boolean) => {
-    App.loading = boolean
-    const loader = $('#loader')
-    const content = $('#content')
-    if (boolean) {
-      loader.show()
-      content.hide()
-    } else {
-      loader.hide()
-      content.show()
-    }
+  {
+    "inputs": [],
+    "name": "getListTweet",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "content",
+            "type": "string"
+          },
+          {
+            "internalType": "bool",
+            "name": "modified",
+            "type": "bool"
+          },
+          {
+            "internalType": "bool",
+            "name": "deleted",
+            "type": "bool"
+          },
+          {
+            "internalType": "uint256",
+            "name": "date",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Tweet.TweetStructure[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function",
+    "constant": true
   }
+]
+
+window.addEventListener('load', async () => {
+	if (typeof web3 !== 'undefined') {
+		window.web3 = new Web3(web3.currentProvider)
+    //console.log(web3)
+	}
+	else {
+		window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+		alert("HttpProvider")
+	}
+  await init()
+})
+
+async function init() {
+  const address = '0x8f276d739FA3754eb0c68ADc2d5fdBbf63494326'
+  const AbiContractToken = await new web3.eth.Contract(abi, address)
+  acc = await web3.eth.getAccounts()
+  console.log(acc)
+  tweets = await AbiContractToken.methods.getListTweet().call()
+  //tweets = await AbiContractToken.methods.createSportTweet('yann').send({from:"0xC7755F19502958cEBa6347b8674c43D727b62626"})
+  console.log(tweets)
+
+	feed = ''
+
+	for (tweet of tweets){
+			  if (! tweet.deleted){
+          feed += `<div class="media-block tweetTemplate">
+        <a class="media-left" href="#"><img class="img-circle img-sm" alt="Profile Picture" src="https://bootdey.com/img/Content/avatar/avatar1.png"></a>
+        <div class="media-body " >
+          <div class="mar-btm">
+            <a href="#"class="btn-link text-semibold media-heading box-inline"><span id="account">User</span></a>
+            <p class="text-muted text-sm"><i class="fa fa-mobile fa-lg"></i> - From Mobile - ${tweet.date} </p>
+          </div>
+          <p id="${tweet.id}" class="content">${tweet.content}</p>
+          <div class="pad-ver">
+            <div class="btn-group">
+              <a class="btn btn-sm btn-default btn-hover-success" href="#"><i class="fa fa-thumbs-up"></i></a>
+              <a class="btn btn-sm btn-default btn-hover-danger" href="#"><i class="fa fa-thumbs-down"></i></a>                  
+              <a class="btn btn-sm btn-default btn-hover-success" onclick="deletedTweets(${tweet.id});" href="#"><i class="fa fa-trash"></i></a>
+              <a class="btn btn-sm btn-default btn-hover-danger" data-toggle="modal" data-target="#myModal" onclick="modifyTweets(${tweet.id});" href="#"><i class="fa fa-pencil-square-o "></i></a>
+            </div>
+          </div>
+          <hr>
+        </div>
+      </div>`
+        }
+	}
+
+  document.getElementById('tweetContent').innerHTML = feed
 }
 
-$(() => {
-  $(window).load(() => {
-    App.load()
-  })
-})
+async function createTweet(){
+  content = document.getElementById('newTweet').value 
+  const address = '0x8f276d739FA3754eb0c68ADc2d5fdBbf63494326'
+  const AbiContractToken = await new web3.eth.Contract(abi, address)
+  tweets = await AbiContractToken.methods.createSportTweet(content).send({from:"0xC7755F19502958cEBa6347b8674c43D727b62626"})
+  init()
+}
+
+async function modifyTweets(id){
+  let content = prompt('enter new content')
+  const address = '0x8f276d739FA3754eb0c68ADc2d5fdBbf63494326'
+  const AbiContractToken = await new web3.eth.Contract(abi, address)
+  tweets = await AbiContractToken.methods.modifyTweet(id, content).send({from:"0xC7755F19502958cEBa6347b8674c43D727b62626"})
+  init()
+}
+
+async function deletedTweets(id){
+  const address = '0x8f276d739FA3754eb0c68ADc2d5fdBbf63494326'
+  const AbiContractToken = await new web3.eth.Contract(abi, address)
+  tweets = await AbiContractToken.methods.deleteTweet(id).send({from:"0xC7755F19502958cEBa6347b8674c43D727b62626"})
+  init()
+}
+
+
