@@ -28,10 +28,10 @@ $ cd ../smcontract
 $ npm i
 
 $ truffle migirate --reset
-/* change the local address in app.js to the address of your contract address */
+
 $ npm run dev
  connect to metamask 
- enter the tweet
+#You can anything you want create, modify, read and delete 
 
 
 
