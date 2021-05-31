@@ -31,6 +31,7 @@ $ truffle migirate --reset
 
 $ npm run dev
  connect to metamask 
+ ```
 # You can anything you want create, modify, read and delete 
 
 
