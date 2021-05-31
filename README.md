@@ -15,6 +15,7 @@ This project is simple mini twitter application using solidity with etherum .
 	
 ## Technologies
 Project is created with:
+* truffle version: 5.3.4
 * solidity version :0.8.1
 * solidity compiler version: 0.7.0
 * npm version: 6.14.12
